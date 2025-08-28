@@ -1,5 +1,6 @@
 # Criando código
 Sempre que criar código  você não deve inventar links ou features que não foram pedidas.
+Sempre que criar ou alterar o frontend de uma tela, ao terminar a historia lembre de levantar a tela e tirar um screenshot dela.
 
 # Frontend
 Vanilla JS
