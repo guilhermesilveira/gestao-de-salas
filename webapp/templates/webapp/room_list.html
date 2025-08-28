@@ -1,4 +1,5 @@
 {% extends 'webapp/base.html' %}
+{% load schedule_filters %}
 
 {% block title %}Lista de Salas - Gestão de Salas{% endblock %}
 
@@ -13,16 +14,66 @@
 <div class="card shadow-sm">
     <div class="card-body">
         {% if rooms %}
-            <ul class="list-group">
+            <div class="row">
                 {% for room in rooms %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>
-                            <i class="fas fa-door-open me-2 text-secondary"></i>{{ room.name }}
-                        </span>
-                        <span class="badge bg-success rounded-pill">Disponível</span>
-                    </li>
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-header bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-door-open me-2 text-primary"></i>{{ room.name }}
+                                    </h5>
+                                    <a href="{% url 'webapp:edit_room' room.id %}" class="btn btn-outline-warning btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-3 text-muted">Horários Disponíveis:</h6>
+                                {% if room.available_hours %}
+                                    <div class="schedule-display">
+                                        {% for day, times in room.available_hours.items %}
+                                            {% if times %}
+                                                <div class="mb-2">
+                                                    <strong class="text-primary">
+                                                        {% if day == "monday" %}Segunda-feira
+                                                        {% elif day == "tuesday" %}Terça-feira
+                                                        {% elif day == "wednesday" %}Quarta-feira
+                                                        {% elif day == "thursday" %}Quinta-feira
+                                                        {% elif day == "friday" %}Sexta-feira
+                                                        {% elif day == "saturday" %}Sábado
+                                                        {% elif day == "sunday" %}Domingo
+                                                        {% else %}{{ day|title }}{% endif %}:
+                                                    </strong>
+                                                    {% for time_slot in times %}
+                                                        <span class="badge bg-success me-1">
+                                                            {{ time_slot.from }}h - {{ time_slot.to }}h
+                                                        </span>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="text-muted small">Nenhum horário definido</p>
+                                {% endif %}
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <small class="text-muted">
+                                    <i class="fas fa-clock me-1"></i>
+                                    {% if room.available_hours %}
+                                        {% with total_slots=room.available_hours|count_schedule_slots %}
+                                            {{ total_slots }} horário{{ total_slots|pluralize:"s" }} configurado{{ total_slots|pluralize:"s" }}
+                                        {% endwith %}
+                                    {% else %}
+                                        0 horários configurados
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <div class="alert alert-info" role="alert">
                 <i class="fas fa-info-circle me-2"></i>Nenhuma sala cadastrada no momento.
@@ -30,4 +81,22 @@
         {% endif %}
     </div>
 </div>
+
+<style>
+.schedule-display {
+    font-size: 0.9rem;
+}
+
+.schedule-display .badge {
+    font-size: 0.8rem;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+</style>
 {% endblock %}

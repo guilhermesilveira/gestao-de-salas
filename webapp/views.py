@@ -37,6 +37,32 @@ def add_room(request):
             return render(request, 'webapp/add_room.html', {'error': 'Invalid JSON format for available hours.'})
     return render(request, 'webapp/add_room.html')
 
+def edit_room(request: HttpRequest, room_id: int) -> HttpResponse:
+    """
+    View to edit an existing room.
+    """
+    try:
+        room = Sala.objects.get(id=room_id)
+    except Sala.DoesNotExist:
+        return redirect('webapp:room_list')
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        available_hours_str = request.POST.get('available_hours')
+        try:
+            available_hours = json.loads(available_hours_str)
+            room.name = name
+            room.available_hours = available_hours
+            room.save()
+            return redirect('webapp:room_list')
+        except (json.JSONDecodeError, TypeError):
+            return render(request, 'webapp/edit_room.html', {
+                'room': room,
+                'error': 'Invalid JSON format for available hours.'
+            })
+    
+    return render(request, 'webapp/edit_room.html', {'room': room})
+
 def user_login(request: HttpRequest) -> HttpResponse:
     """View para autenticação de usuário."""
     if request.user.is_authenticated:

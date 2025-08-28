@@ -1,13 +1,13 @@
 {% extends 'webapp/base.html' %}
 
-{% block title %}Adicionar Sala - Gestão de Salas{% endblock %}
+{% block title %}Editar Sala - Gestão de Salas{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h1 class="h3 mb-0"><i class="fas fa-plus-circle me-2"></i>Adicionar Nova Sala</h1>
+            <div class="card-header bg-warning text-dark">
+                <h1 class="h3 mb-0"><i class="fas fa-edit me-2"></i>Editar Sala: {{ room.name }}</h1>
             </div>
             <div class="card-body">
                 {% if error %}
@@ -15,11 +15,11 @@
                         <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
                     </div>
                 {% endif %}
-                <form method="post" id="addRoomForm">
+                <form method="post" id="editRoomForm">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome da Sala</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ room.name }}" required>
                     </div>
                     
                     <div class="mb-3">
@@ -36,8 +36,8 @@
                         <a href="{% url 'webapp:room_list' %}" class="btn btn-secondary me-2">
                             <i class="fas fa-times me-2"></i>Cancelar
                         </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-2"></i>Salvar Sala
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save me-2"></i>Atualizar Sala
                         </button>
                     </div>
                 </form>
@@ -85,10 +85,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('addScheduleRow');
     const scheduleContainer = document.getElementById('scheduleContainer');
     const template = document.getElementById('scheduleRowTemplate');
-    const form = document.getElementById('addRoomForm');
+    const form = document.getElementById('editRoomForm');
     
-    // Adicionar primeira linha automaticamente
-    addScheduleRow();
+    // Dados da sala existente
+    const existingSchedule = JSON.parse('{{ room.available_hours|escapejs }}');
+    
+    // Carregar horários existentes
+    loadExistingSchedule();
     
     // Event listener para adicionar nova linha
     addButton.addEventListener('click', addScheduleRow);
@@ -120,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (validateForm()) {
             // Converter dados para JSON e enviar
-            const formData = new FormData(form);
             const scheduleData = collectScheduleData();
             
             // Criar campo hidden com os dados JSON
@@ -139,6 +141,35 @@ document.addEventListener('DOMContentLoaded', function() {
             form.submit();
         }
     });
+    
+    function loadExistingSchedule() {
+        // Limpar container
+        scheduleContainer.innerHTML = '';
+        
+        // Adicionar horários existentes
+        Object.keys(existingSchedule).forEach(day => {
+            existingSchedule[day].forEach(timeSlot => {
+                addScheduleRowWithData(day, timeSlot.from, timeSlot.to);
+            });
+        });
+        
+        // Se não houver horários, adicionar uma linha vazia
+        if (Object.keys(existingSchedule).length === 0) {
+            addScheduleRow();
+        }
+    }
+    
+    function addScheduleRowWithData(day, startTime, endTime) {
+        const clone = template.content.cloneNode(true);
+        const row = clone.querySelector('.schedule-row');
+        
+        // Preencher os campos
+        row.querySelector('.day-select').value = day;
+        row.querySelector('.start-time').value = startTime;
+        row.querySelector('.end-time').value = endTime;
+        
+        scheduleContainer.appendChild(clone);
+    }
     
     function addScheduleRow() {
         const clone = template.content.cloneNode(true);
