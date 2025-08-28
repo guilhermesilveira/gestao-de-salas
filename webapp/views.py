@@ -29,7 +29,7 @@ def add_room(request):
         try:
             available_hours = json.loads(available_hours_str)
             Sala.objects.create(name=name, available_hours=available_hours)
-            return redirect('room_list')
+            return redirect('webapp:room_list')
         except (json.JSONDecodeError, TypeError):
             # Handle error, maybe render the form again with an error message
             return render(request, 'webapp/add_room.html', {'error': 'Invalid JSON format for available hours.'})
