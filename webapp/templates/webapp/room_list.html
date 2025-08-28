@@ -1,15 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Room List</title>
-</head>
-<body>
-    <h1>Rooms</h1>
-    <ul>
-        {% for room in rooms %}
-            <li>{{ room.name }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'webapp:add_room' %}">Add new room</a>
-</body>
-</html>
+{% extends 'webapp/base.html' %}
+
+{% block title %}Lista de Salas - Gestão de Salas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Salas Disponíveis</h1>
+    <a href="{% url 'webapp:add_room' %}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Adicionar Sala
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if rooms %}
+            <ul class="list-group">
+                {% for room in rooms %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="fas fa-door-open me-2 text-secondary"></i>{{ room.name }}
+                        </span>
+                        <span class="badge bg-success rounded-pill">Disponível</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle me-2"></i>Nenhuma sala cadastrada no momento.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
