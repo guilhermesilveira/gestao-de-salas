@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'webapp.middleware.AuthRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'gestao_salas.urls'
@@ -126,6 +127,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
+PUBLIC_URLS = ['/login/', '/register/', '/logout/']
 
 # Configurações de Mensagens
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
