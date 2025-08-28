@@ -2,12 +2,19 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from typing import Optional
+import os
 
 
 class Command(BaseCommand):
     help = 'Creates an admin user with username guilherme.silveira and password 123456'
 
     def handle(self, *args: tuple, **options: dict) -> None:
+        if os.environ.get('DJANGO_ENV') != 'development':
+            self.stdout.write(self.style.ERROR(
+                'This command can only be run in the development environment.'
+            ))
+            return
+
         username = 'guilherme.silveira'
         password = '123456'
         
