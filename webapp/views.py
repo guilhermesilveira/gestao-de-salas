@@ -7,7 +7,9 @@ from django.contrib.auth.decorators import login_required
 from typing import Any
 import json
 from .models import Sala
+from .decorators import public_route
 
+@public_route
 def welcome(request: HttpRequest) -> HttpResponse:
     """View de boas-vindas para a aplicação de gestão de salas."""
     return render(request, 'webapp/welcome.html')
@@ -86,7 +88,6 @@ def user_register(request: HttpRequest) -> HttpResponse:
     return render(request, 'webapp/register.html', {'form': form})
 
 
-@login_required
 def dashboard(request: HttpRequest) -> HttpResponse:
     """View do dashboard (apenas para usuários autenticados)."""
     return render(request, 'webapp/dashboard.html')
