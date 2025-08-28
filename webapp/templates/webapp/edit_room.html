@@ -80,6 +80,7 @@
     </div>
 </template>
 
+{{ room.available_hours|json_script:"schedule-data" }}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('addScheduleRow');
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('editRoomForm');
     
     // Dados da sala existente
-    const existingSchedule = JSON.parse('{{ room.available_hours|escapejs }}');
+    const existingSchedule = JSON.parse(document.getElementById('schedule-data').textContent);
     
     // Carregar horários existentes
     loadExistingSchedule();
