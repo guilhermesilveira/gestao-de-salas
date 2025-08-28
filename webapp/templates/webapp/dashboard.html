@@ -1,0 +1,194 @@
+{% extends 'webapp/base.html' %}
+
+{% block title %}Dashboard - Gestão de Salas{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h2">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </h1>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary">
+                    <i class="fas fa-plus me-1"></i>Nova Sala
+                </button>
+                <button type="button" class="btn btn-outline-success">
+                    <i class="fas fa-calendar-plus me-1"></i>Novo Agendamento
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Estatísticas -->
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Total de Salas</h6>
+                        <h2 class="mb-0">12</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-building fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Salas Disponíveis</h6>
+                        <h2 class="mb-0">8</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-check-circle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Agendamentos Hoje</h6>
+                        <h2 class="mb-0">5</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-calendar-day fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Usuários Ativos</h6>
+                        <h2 class="mb-0">24</h2>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-users fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- Próximos Agendamentos -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-calendar-alt me-2"></i>Próximos Agendamentos
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Sala</th>
+                                <th>Usuário</th>
+                                <th>Data</th>
+                                <th>Horário</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-building me-2"></i>Sala de Reunião A
+                                </td>
+                                <td>João Silva</td>
+                                <td>28/08/2025</td>
+                                <td>14:00 - 15:00</td>
+                                <td><span class="badge bg-success">Confirmado</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-building me-2"></i>Auditório Principal
+                                </td>
+                                <td>Maria Santos</td>
+                                <td>28/08/2025</td>
+                                <td>16:00 - 17:30</td>
+                                <td><span class="badge bg-warning">Pendente</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-building me-2"></i>Sala de Treinamento
+                                </td>
+                                <td>Pedro Costa</td>
+                                <td>29/08/2025</td>
+                                <td>09:00 - 12:00</td>
+                                <td><span class="badge bg-info">Aprovado</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ações Rápidas -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt me-2"></i>Ações Rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="#" class="btn btn-outline-primary">
+                        <i class="fas fa-search me-2"></i>Buscar Sala
+                    </a>
+                    <a href="#" class="btn btn-outline-success">
+                        <i class="fas fa-calendar-check me-2"></i>Meus Agendamentos
+                    </a>
+                    <a href="#" class="btn btn-outline-info">
+                        <i class="fas fa-chart-bar me-2"></i>Relatórios
+                    </a>
+                    <a href="#" class="btn btn-outline-warning">
+                        <i class="fas fa-cog me-2"></i>Configurações
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Informações do Usuário -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-user me-2"></i>Minha Conta
+                </h6>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Usuário:</strong> {{ user.username }}
+                </p>
+                <p class="mb-2">
+                    <strong>Último login:</strong> {{ user.last_login|date:"d/m/Y H:i"|default:"Nunca" }}
+                </p>
+                <p class="mb-0">
+                    <strong>Membro desde:</strong> {{ user.date_joined|date:"d/m/Y" }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
